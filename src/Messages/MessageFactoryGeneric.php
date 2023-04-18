@@ -5,7 +5,7 @@ namespace Core\Messages;
 use Core\Interfaces\Session;
 use Core\Interfaces\Cookie;
 use Core\Interfaces\MessageFactory;
-use Core\Interfaces\MessageCollection;
+use Core\Interfaces\MessageCollectionFlash;
 use Core\Messages\Cookies\MessageGetCookies;
 use Core\Messages\Cookies\MessagePutCookies;
 use Core\Messages\Session\MessageGetSession;
@@ -23,19 +23,19 @@ class MessageFactoryGeneric implements MessageFactory
         $this->session = $session;
     }
 
-    public function getMessageCollection(array $messages = [], array $sources = []): MessageCollection
+    public function getMessageCollection(array $messages = [], array $sources = []): MessageCollectionFlash
     {
         return new MessageCollectionGeneric($messages, $sources);
     }
 
-    public function getMessagesCookie(array $messages = [], array $sources = []): MessageCollection
+    public function getMessagesCookie(array $messages = [], array $sources = []): MessageCollectionFlash
     {
         $messageGet = new MessageGetCookies($this->cookies);
         $messagePut = new MessagePutCookies($this->cookies);
         return new MessageCollectionGeneric($messages, $sources, $messageGet, $messagePut);
     }
 
-    public function getMessagesSession(array $messages = [], array $sources = []): MessageCollection
+    public function getMessagesSession(array $messages = [], array $sources = []): MessageCollectionFlash
     {
         $messageGet = new MessageGetSession($this->session);
         $messagePut = new MessagePutSession($this->session);

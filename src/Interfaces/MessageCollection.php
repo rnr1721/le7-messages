@@ -106,14 +106,6 @@ interface MessageCollection
     public function error(string $message, string $source = "application"): self;
 
     /**
-     * Put messages to somewhere using interface
-     * @param MessagePut|null $putMethod Instance of MessagePut interface
-     * @param string $type Type of messages or all
-     * @return bool
-     */
-    public function putToDestination(?MessagePut $putMethod = null, string $type = 'all'): bool;
-
-    /**
      * Get messages somewhere
      * @param MessageGet|null $getMethod Instance of messageGet interface
      * @param string $type Type of messages or all

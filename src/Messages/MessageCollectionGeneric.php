@@ -6,13 +6,13 @@ namespace Core\Messages;
 
 use Core\Interfaces\MessageGet;
 use Core\Interfaces\MessagePut;
-use Core\Interfaces\MessageCollection;
+use Core\Interfaces\MessageCollectionFlash;
 use \Exception;
 use function in_array,
              count,
              array_merge;
 
-class MessageCollectionGeneric implements MessageCollection
+class MessageCollectionGeneric implements MessageCollectionFlash
 {
 
     private ?MessageGet $messageGet = null;
@@ -194,9 +194,9 @@ class MessageCollectionGeneric implements MessageCollection
      * Emit alert message
      * @param string $message Message text
      * @param string $source Source
-     * @return MessageCollection
+     * @return MessageCollectionFlash
      */
-    public function alert(string $message, string $source = "application"): MessageCollection
+    public function alert(string $message, string $source = "application"): MessageCollectionFlash
     {
         $this->newMsg($message, 'alert', $source);
         return $this;
@@ -206,9 +206,9 @@ class MessageCollectionGeneric implements MessageCollection
      * Emit error message
      * @param string $message Message text
      * @param string $source Source
-     * @return MessageCollection
+     * @return MessageCollectionFlash
      */
-    public function error(string $message, string $source = "application"): MessageCollection
+    public function error(string $message, string $source = "application"): MessageCollectionFlash
     {
         $this->newMsg($message, 'error', $source);
         return $this;
@@ -218,9 +218,9 @@ class MessageCollectionGeneric implements MessageCollection
      * Emit question message
      * @param string $message Message text
      * @param string $source Source
-     * @return MessageCollection
+     * @return MessageCollectionFlash
      */
-    public function question(string $message, string $source = "application"): MessageCollection
+    public function question(string $message, string $source = "application"): MessageCollectionFlash
     {
         $this->newMsg($message, 'question', $source);
         return $this;
@@ -230,9 +230,9 @@ class MessageCollectionGeneric implements MessageCollection
      * Emit warning message
      * @param string $message Message text
      * @param string $source Source
-     * @return MessageCollection
+     * @return MessageCollectionFlash
      */
-    public function warning(string $message, string $source = "application"): MessageCollection
+    public function warning(string $message, string $source = "application"): MessageCollectionFlash
     {
         $this->newMsg($message, 'warning', $source);
         return $this;
@@ -242,9 +242,9 @@ class MessageCollectionGeneric implements MessageCollection
      * Emit info message
      * @param string $message Message text
      * @param string $source Source
-     * @return MessageCollection
+     * @return MessageCollectionFlash
      */
-    public function info(string $message, string $source = "application"): MessageCollection
+    public function info(string $message, string $source = "application"): MessageCollectionFlash
     {
         $this->newMsg($message, 'info', $source);
         return $this;
