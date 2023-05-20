@@ -2,16 +2,16 @@
 
 namespace Core\Messages\Session;
 
-use Core\Interfaces\Session;
-use Core\Interfaces\MessagePut;
+use Core\Interfaces\SessionInterface;
+use Core\Interfaces\MessagePutInterface;
 
-class MessagePutSession implements MessagePut
+class MessagePutSession implements MessagePutInterface
 {
 
     private string $sessionKey = 'flash_msg';
-    private Session $session;
+    private SessionInterface $session;
 
-    public function __construct(Session $session)
+    public function __construct(SessionInterface $session)
     {
         $this->session = $session;
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Interfaces;
 
-interface MessageCollection
+interface MessageCollectionInterface
 {
 
     /**
@@ -14,7 +14,11 @@ interface MessageCollection
      * @param string $source Message source 
      * @return self
      */
-    public function newMsg(string $message, string $status = 'info', string $source = 'application'): self;
+    public function newMsg(
+            string $message,
+            string $status = 'info',
+            string $source = 'application'
+    ): self;
 
     /**
      * Get all messages as array
@@ -69,7 +73,7 @@ interface MessageCollection
      * Emit alert message
      * @param string $message Message text
      * @param string $source Source
-     * @return MessageCollection
+     * @return MessageCollectionInterface
      */
     public function alert(string $message, string $source = "application"): self;
 
@@ -77,7 +81,7 @@ interface MessageCollection
      * Emit warning message
      * @param string $message Message text
      * @param string $source Source
-     * @return MessageCollection
+     * @return MessageCollectionInterface
      */
     public function warning(string $message, string $source = "application"): self;
 
@@ -85,7 +89,7 @@ interface MessageCollection
      * Emit question message
      * @param string $message Message text
      * @param string $source Source
-     * @return MessageCollection
+     * @return MessageCollectionInterface
      */
     public function question(string $message, string $source = "application"): self;
 
@@ -93,7 +97,7 @@ interface MessageCollection
      * Emit info message
      * @param string $message Message text
      * @param string $source Source
-     * @return MessageCollection
+     * @return MessageCollectionInterface
      */
     public function info(string $message, string $source = "application"): self;
 
@@ -101,25 +105,25 @@ interface MessageCollection
      * Emit error message
      * @param string $message Message text
      * @param string $source Source
-     * @return MessageCollection
+     * @return MessageCollectionInterface
      */
     public function error(string $message, string $source = "application"): self;
 
     /**
      * Get messages somewhere
-     * @param MessageGet|null $getMethod Instance of messageGet interface
+     * @param MessageGetInterface|null $getMethod Instance of messageGet interface
      * @param string $type Type of messages or all
      * @return array
      */
-    public function getFromSource(?MessageGet $getMethod = null, string $type = 'all'): array;
+    public function getFromSource(?MessageGetInterface $getMethod = null, string $type = 'all'): array;
 
     /**
      * Some as getMessages, but messages load to current messages list
-     * @param MessageGet|null $getMethod Interface to load
+     * @param MessageGetInterface|null $getMethod Interface to load
      * @param string $type Message type
      * @return bool
      */
-    public function loadMessages(?MessageGet $getMethod = null, string $type = 'all'): bool;
+    public function loadMessages(?MessageGetInterface $getMethod = null, string $type = 'all'): bool;
 
     /**
      * Clear all messages

@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Core\Messages\Cookies;
 
-use Core\Interfaces\Cookie;
-use Core\Interfaces\MessageGet;
+use Core\Interfaces\CookieInterface;
+use Core\Interfaces\MessageGetInterface;
 
-class MessageGetCookies implements MessageGet
+class MessageGetCookies implements MessageGetInterface
 {
 
     private string $cookieName = 'flash_msg';
-    private Cookie $cookies;
+    private CookieInterface $cookies;
 
-    public function __construct(Cookie $cookies)
+    public function __construct(CookieInterface $cookies)
     {
         $this->cookies = $cookies;
     }

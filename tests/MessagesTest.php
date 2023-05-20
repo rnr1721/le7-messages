@@ -6,7 +6,7 @@ use Core\Session\SessionCache;
 use Core\Cookies\CookiesCache;
 use Core\Cookies\CookieConfigDefault;
 use Core\Messages\MessageFactoryGeneric;
-use Core\Interfaces\MessageCollection;
+use Core\Interfaces\MessageCollectionInterface;
 
 require_once 'vendor/autoload.php';
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -14,9 +14,9 @@ require_once __DIR__ . '/../vendor/autoload.php';
 class MessagesTest extends PHPUnit\Framework\TestCase
 {
 
-    protected MessageCollection $msg;
-    protected MessageCollection $msgSession;
-    protected MessageCollection $msgCookies;
+    protected MessageCollectionInterface $msg;
+    protected MessageCollectionInterface $msgSession;
+    protected MessageCollectionInterface $msgCookies;
 
     protected function setUp(): void
     {
@@ -38,13 +38,13 @@ class MessagesTest extends PHPUnit\Framework\TestCase
 
     public function testMessagesCollection()
     {
-        
+
         $this->assertEquals(1, count($this->msg->getAll()));
-        
+
         $this->msg->clear();
-        
+
         $this->assertEmpty($this->msg->getAll());
-        
+
         // Test standard adding messages
         $this->msg->alert('msgAlert');
         $this->msg->error('msgError');
@@ -70,14 +70,14 @@ class MessagesTest extends PHPUnit\Framework\TestCase
         $this->msg->warning('msgWarning');
         $messagesBySource = $this->msg->getBySource('core');
         $this->assertEquals(2, count($messagesBySource));
-        
+
         // Test plain
         $msgAlerts = $this->msg->getAlerts(true);
         $msgErrors = $this->msg->getErrors(true);
         $msgWarnings = $this->msg->getWarnings(true);
         $msgInfos = $this->msg->getInfos(true);
         $msgQuestions = $this->msg->getQuestions(true);
-        
+
         $this->assertEquals('msgAlert', $msgAlerts[0]);
         $this->assertEquals('msgError', $msgErrors[0]);
         $this->assertEquals('msgQuestion', $msgQuestions[0]);
@@ -95,7 +95,7 @@ class MessagesTest extends PHPUnit\Framework\TestCase
         $this->runMessageTest($this->msgCookies);
     }
 
-    public function runMessageTest(MessageCollection $msg)
+    public function runMessageTest(MessageCollectionInterface $msg)
     {
         $msg->alert('alertMsg');
         $msg->error('errorMsg');

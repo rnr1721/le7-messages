@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Interfaces;
 
-interface MessageGet {
+interface MessageGetInterface {
 
     /**
      * Get messages from source as array

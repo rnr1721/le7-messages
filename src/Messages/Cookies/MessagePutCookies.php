@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Core\Messages\Cookies;
 
-use Core\Interfaces\Cookie;
-use Core\Interfaces\MessagePut;
+use Core\Interfaces\CookieInterface;
+use Core\Interfaces\MessagePutInterface;
 
-class MessagePutCookies implements MessagePut
+class MessagePutCookies implements MessagePutInterface
 {
 
     private string $cookieName = 'flash_msg';
-    private Cookie $cookies;
+    private CookieInterface $cookies;
 
-    public function __construct(Cookie $cookies)
+    public function __construct(CookieInterface $cookies)
     {
         $this->cookies = $cookies;
     }

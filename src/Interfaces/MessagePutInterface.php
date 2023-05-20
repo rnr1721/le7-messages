@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Interfaces;
 
-interface MessagePut {
+interface MessagePutInterface {
 
     /**
      * Put message to destination

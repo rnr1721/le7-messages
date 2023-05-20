@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Core\Messages;
 
-use Core\Interfaces\MessageGet;
-use Core\Interfaces\MessagePut;
-use Core\Interfaces\MessageCollectionFlash;
+use Core\Interfaces\MessageGetInterface;
+use Core\Interfaces\MessagePutInterface;
+use Core\Interfaces\MessageCollectionFlashInterface;
 use \Exception;
 use function in_array,
              count,
              array_merge;
 
-class MessageCollectionGeneric implements MessageCollectionFlash
+class MessageCollectionGeneric implements MessageCollectionFlashInterface
 {
 
-    private ?MessageGet $messageGet = null;
-    private ?MessagePut $messagePut = null;
+    private ?MessageGetInterface $messageGet = null;
+    private ?MessagePutInterface $messagePut = null;
     private array $msgTypes = array(
         'info',
         'error',
@@ -33,7 +33,12 @@ class MessageCollectionGeneric implements MessageCollectionFlash
     );
     private array $messages;
 
-    public function __construct(array $messages = [], array $msgSources = [], ?MessageGet $messageGet = null, ?MessagePut $messagePut = null)
+    public function __construct(
+            array $messages = [],
+            array $msgSources = [],
+            ?MessageGetInterface $messageGet = null,
+            ?MessagePutInterface $messagePut = null
+    )
     {
         $this->messages = $messages;
         $this->messageGet = $messageGet;
@@ -50,7 +55,11 @@ class MessageCollectionGeneric implements MessageCollectionFlash
      * @param string $source Message source
      * @return self
      */
-    public function newMsg(string $message, string $status = 'info', string $source = 'application'): self
+    public function newMsg(
+            string $message,
+            string $status = 'info',
+            string $source = 'application'
+    ): self
     {
         $this->checkSource($source);
         $this->checkType($status);
@@ -194,9 +203,12 @@ class MessageCollectionGeneric implements MessageCollectionFlash
      * Emit alert message
      * @param string $message Message text
      * @param string $source Source
-     * @return MessageCollectionFlash
+     * @return MessageCollectionFlashInterface
      */
-    public function alert(string $message, string $source = "application"): MessageCollectionFlash
+    public function alert(
+            string $message,
+            string $source = "application"
+    ): MessageCollectionFlashInterface
     {
         $this->newMsg($message, 'alert', $source);
         return $this;
@@ -206,9 +218,12 @@ class MessageCollectionGeneric implements MessageCollectionFlash
      * Emit error message
      * @param string $message Message text
      * @param string $source Source
-     * @return MessageCollectionFlash
+     * @return MessageCollectionFlashInterface
      */
-    public function error(string $message, string $source = "application"): MessageCollectionFlash
+    public function error(
+            string $message,
+            string $source = "application"
+    ): MessageCollectionFlashInterface
     {
         $this->newMsg($message, 'error', $source);
         return $this;
@@ -218,9 +233,12 @@ class MessageCollectionGeneric implements MessageCollectionFlash
      * Emit question message
      * @param string $message Message text
      * @param string $source Source
-     * @return MessageCollectionFlash
+     * @return MessageCollectionFlashInterface
      */
-    public function question(string $message, string $source = "application"): MessageCollectionFlash
+    public function question(
+            string $message,
+            string $source = "application"
+    ): MessageCollectionFlashInterface
     {
         $this->newMsg($message, 'question', $source);
         return $this;
@@ -230,9 +248,12 @@ class MessageCollectionGeneric implements MessageCollectionFlash
      * Emit warning message
      * @param string $message Message text
      * @param string $source Source
-     * @return MessageCollectionFlash
+     * @return MessageCollectionFlashInterface
      */
-    public function warning(string $message, string $source = "application"): MessageCollectionFlash
+    public function warning(
+            string $message,
+            string $source = "application"
+    ): MessageCollectionFlashInterface
     {
         $this->newMsg($message, 'warning', $source);
         return $this;
@@ -242,9 +263,12 @@ class MessageCollectionGeneric implements MessageCollectionFlash
      * Emit info message
      * @param string $message Message text
      * @param string $source Source
-     * @return MessageCollectionFlash
+     * @return MessageCollectionFlashInterface
      */
-    public function info(string $message, string $source = "application"): MessageCollectionFlash
+    public function info(
+            string $message,
+            string $source = "application"
+    ): MessageCollectionFlashInterface
     {
         $this->newMsg($message, 'info', $source);
         return $this;
@@ -252,16 +276,19 @@ class MessageCollectionGeneric implements MessageCollectionFlash
 
     /**
      * Put messages to somewhere using interface
-     * @param MessagePut $putMethod
+     * @param MessagePutInterface $putMethod
      * @param string $type
      * @return bool
      */
-    public function putToDestination(?MessagePut $putMethod = null, string $type = 'all'): bool
+    public function putToDestination(
+            ?MessagePutInterface $putMethod = null,
+            string $type = 'all'
+    ): bool
     {
         if ($putMethod === null) {
             $putMethod = $this->messagePut;
         }
-        if (!$putMethod instanceof MessagePut) {
+        if (!$putMethod instanceof MessagePutInterface) {
             throw new Exception('MessageCollectionGeneric::getFromSource() no destination');
         }
         if ($type === 'all') {
@@ -274,17 +301,20 @@ class MessageCollectionGeneric implements MessageCollectionFlash
 
     /**
      * Get messages from provider (MessageGetInterface)
-     * @param MessageGet $getMethod
+     * @param MessageGetInterface $getMethod
      * @param string $type
      * @return array
      * @throws Exception
      */
-    public function getFromSource(?MessageGet $getMethod = null, string $type = 'all'): array
+    public function getFromSource(
+            ?MessageGetInterface $getMethod = null,
+            string $type = 'all'
+    ): array
     {
         if ($getMethod === null) {
             $getMethod = $this->messageGet;
         }
-        if (!$getMethod instanceof MessageGet) {
+        if (!$getMethod instanceof MessageGetInterface) {
             throw new Exception('MessageCollectionGeneric::getFromSource() no source');
         }
         $messages = $getMethod->getMessages();
@@ -302,11 +332,14 @@ class MessageCollectionGeneric implements MessageCollectionFlash
 
     /**
      * Load messages to current
-     * @param MessageGet|null $getMethod
+     * @param MessageGetInterface|null $getMethod
      * @param string $type
      * @return bool
      */
-    public function loadMessages(?MessageGet $getMethod = null, string $type = 'all'): bool
+    public function loadMessages(
+            ?MessageGetInterface $getMethod = null,
+            string $type = 'all'
+    ): bool
     {
         $messages = $this->getFromSource($getMethod, $type);
         if (empty($messages)) {
